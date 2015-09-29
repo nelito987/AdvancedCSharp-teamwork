@@ -33,7 +33,7 @@ namespace Moo
                     continue;
                 }
 
-                uint comupersNumber = GenerateNumber(); // Компютъра си измисля число 
+                uint computersNumber = GenerateNumber(); // Компютъра си измисля число 
                 uint countTries = 0; // Брои опитите на играча да познае числото
 
                 ComputerMessage(String.Format("Намислих си едно {0}-цифрено число 3:-O", numberOfDigits));
@@ -64,7 +64,7 @@ namespace Moo
                     }
                     else if (input=="surrender")
                     {
-                        if (Surrender(comupersNumber))
+                        if (Surrender(computersNumber))
                         {
                             Console.Clear();
                             break;
@@ -124,7 +124,7 @@ namespace Moo
                         }
 
                         // Вземаме броя на биковете и броя на кравите, и ги отпечатваме на конзолата
-                        byte[] bullsAndCows = GetBullsAndCows(comupersNumber,gamersNumber);
+                        byte[] bullsAndCows = GetBullsAndCows(computersNumber,gamersNumber);
                         if (bullsAndCows[0]==numberOfDigits) // Ако биковете са равни на цифрите, играча печели играта
                         {
                             Console.Beep();
