@@ -35,11 +35,12 @@ namespace Moo
 
                 uint computersNumber = GenerateNumber(); // Компютъра си измисля число 
                 uint countTries = 0; // Брои опитите на играча да познае числото
+                byte jokersCounter = 0; // Брои жокерите
 
                 ComputerMessage(String.Format("Намислих си едно {0}-цифрено число 3:-O", numberOfDigits));
                 while (true)
                 {                   
-                    Console.Write("\nИграч:");
+                    Console.Write("Играч:");
                     string input = Console.ReadLine();
 
                     if (input == "exit")
@@ -72,7 +73,10 @@ namespace Moo
                     }
                     else if (input=="joker")
                     {
-                        Joker();
+                        if (!Joker(computersNumber, ++jokersCounter))
+                        {
+                            continue;
+                        }
                     }
                     else if (input=="newgame")
                     {
@@ -128,7 +132,7 @@ namespace Moo
                         if (bullsAndCows[0]==numberOfDigits) // Ако биковете са равни на цифрите, играча печели играта
                         {
                             Console.Beep();
-                            ComputerMessage(String.Format("Вие разкрихте тайното ми число с {0} опита. :)",countTries++));
+                            ComputerMessage(String.Format("Вие разкрихте тайното ми число с {0} опита. :)",++countTries));
                             Console.Write("Искате ли да започнете нова игра?(Y|n):");
                             if (Console.ReadKey().Key == ConsoleKey.N)
                             {
@@ -180,9 +184,26 @@ namespace Moo
             return false;
         }
 
-        static void Joker()
+        static bool Joker(uint compNumber,byte numberOfDigitsToReveal)
         {
-
+            // Ако исканите за разкриване цифри са твърде много, метода връща false, в противен случай връща true.
+            // Това съм го направил с цел, ако метода върне грешката(която се намира под този коментар) да мога да извикам continue във втория цикъл(този който е в Main метода) 
+            if (numberOfDigitsToReveal>=numberOfDigits)
+            {
+                ErrorMessage("Нямате право на повече жокери.");
+                return false;
+            }
+            string joker = compNumber.ToString().Substring(0,numberOfDigitsToReveal).PadRight(numberOfDigits,'*');
+            if (numberOfDigitsToReveal==1)
+            {
+                ComputerMessage("Ех... добре, щом ти е толкова трудно, ще ти разкрия една цифра :)");
+            }
+            else
+            {
+                ComputerMessage("Ех... добре, щом ти е толкова трудно, ще ти разкрия още една цифра :)");
+            }
+            ComputerMessage(joker);
+            return true;
         }
 
         static void Log()
